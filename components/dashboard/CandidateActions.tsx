@@ -3,19 +3,21 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { candidatesApi, type CandidateOut } from "@/lib/api"
+import { useTranslation } from "@/lib/language" 
 
 interface CandidateActionsProps {
   candidate: CandidateOut
-  onUpdate?: (c: CandidateOut | null) => void // колбэк для обновления списка
+  onUpdate?: (c: CandidateOut | null) => void
 }
 
 export function CandidateActions({ candidate, onUpdate }: CandidateActionsProps) {
   const [loading, setLoading] = useState(false)
+  const { t } = useTranslation() 
 
   const handleStatusChange = async (status: string) => {
     setLoading(true)
     try {
-      const updated = await candidatesApi.updateStatus(candidate.user_id, status)
+      const updated = await candidatesApi.updateStatus(candidate.id, status) // фикс id
       onUpdate?.(updated)
     } finally {
       setLoading(false)
@@ -26,7 +28,7 @@ export function CandidateActions({ candidate, onUpdate }: CandidateActionsProps)
     setLoading(true)
     try {
       await candidatesApi.delete(candidate.id)
-      onUpdate?.(null) // удалили — вернём null
+      onUpdate?.(null)
     } finally {
       setLoading(false)
     }
@@ -40,7 +42,7 @@ export function CandidateActions({ candidate, onUpdate }: CandidateActionsProps)
           onClick={() => handleStatusChange("interview")}
           className="w-full whitespace-normal break-words text-sm px-2 py-1 text-center cursor-pointer"
         >
-          Пригласить на собеседование
+          {t("inviteInterviewBtn")}
         </Button>
       )
 
@@ -52,7 +54,7 @@ export function CandidateActions({ candidate, onUpdate }: CandidateActionsProps)
             onClick={() => handleStatusChange("adaptation")}
             className="w-full whitespace-normal break-words text-sm px-2 py-1 text-center cursor-pointer"
           >
-            Пригласить на адаптацию
+            {t("inviteAdaptationBtn")}
           </Button>
           <Button
             variant="destructive"
@@ -60,7 +62,7 @@ export function CandidateActions({ candidate, onUpdate }: CandidateActionsProps)
             onClick={() => handleStatusChange("interview_failed")}
             className="w-full whitespace-normal break-words text-sm px-2 py-1 text-center cursor-pointer"
           >
-            Собеседование не пройдено
+            {t("interviewFailedBtn")}
           </Button>
         </div>
       )
@@ -73,7 +75,7 @@ export function CandidateActions({ candidate, onUpdate }: CandidateActionsProps)
             onClick={() => handleStatusChange("adaptation_success")}
             className="w-full whitespace-normal break-words text-sm px-2 py-1 text-center cursor-pointer"
           >
-            Прошел адаптацию
+            {t("adaptationSuccessBtn")}
           </Button>
           <Button
             variant="destructive"
@@ -81,7 +83,7 @@ export function CandidateActions({ candidate, onUpdate }: CandidateActionsProps)
             onClick={() => handleStatusChange("adaptation_failed")}
             className="w-full whitespace-normal break-words text-sm px-2 py-1 text-center cursor-pointer"
           >
-            Не прошел адаптацию
+            {t("adaptationFailedBtn")}
           </Button>
         </div>
       )
@@ -89,21 +91,27 @@ export function CandidateActions({ candidate, onUpdate }: CandidateActionsProps)
     case "interview_failed":
       return (
         <div className="flex flex-col gap-2">
-          <span className="text-red-600">Собеседование провалено</span>
+          <span className="text-red-600">{t("interviewFailedLabel")}</span>
+          <Button variant="outline" disabled={loading} onClick={handleDelete}>
+            {t("delete")}
+          </Button>
         </div>
       )
 
     case "adaptation_success":
-      return <span className="text-green-600">Адаптация пройдена</span>
+      return <span className="text-green-600">{t("adaptationPassedLabel")}</span>
 
     case "adaptation_failed":
       return (
         <div className="flex flex-col gap-2">
-          <span className="text-red-600">Адаптация провалена</span>
+          <span className="text-red-600">{t("adaptationFailedLabel")}</span>
+          <Button variant="outline" disabled={loading} onClick={handleDelete}>
+            {t("delete")}
+          </Button>
         </div>
       )
 
     default:
-      return <span className="text-gray-500">Неизвестный статус</span>
+      return <span className="text-gray-500">{t("unknownStatus")}</span>
   }
 }

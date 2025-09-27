@@ -14,10 +14,11 @@ export interface QuestionCreate {
 }
 
 export interface CandidateOut {
+  user_id(user_id: any, status: string): unknown
   id: number
   name: string | null
   telegram_id: number
-  status: string           // 👈 теперь есть статус
+  status: string          
 }
 
 export interface CandidateCreate {
