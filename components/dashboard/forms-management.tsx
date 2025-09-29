@@ -178,7 +178,7 @@ export function FormsManagement() {
 
       {/* Анализ */}
       <Dialog open={analysisOpen} onOpenChange={setAnalysisOpen}>
-        <DialogContent className="max-w-2xl bg-white">
+        <DialogContent className="fixed left-1/2 top-1/2 z-50 w-full max-w-2xl max-h-[90vh] overflow-y-auto -translate-x-1/2 -translate-y-1/2 bg-white shadow-lg rounded-lg">
           <DialogHeader>
             <DialogTitle className="gradient-text">
               {t("candidateAnalysis")}: {selected?.name}

@@ -198,7 +198,7 @@ export function QuestionsManagement() {
                         #{q.id}
                       </span>
                     </TableCell>
-                    <TableCell className="max-w-md">
+                    <TableCell className="max-w-md break-words">
                       <p className="text-sm leading-relaxed">{q.text}</p>
                     </TableCell>
                     <TableCell>

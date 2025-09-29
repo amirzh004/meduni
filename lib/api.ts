@@ -1,7 +1,7 @@
 // API integration layer for HR Bot Admin Panel
 // OpenAPI 3.1.0 — строго под FastAPI
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.nusacorp.com"
 
 // ---------- Interfaces ----------
 export interface QuestionOut {
