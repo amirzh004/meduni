@@ -100,17 +100,16 @@ export function QuestionsManagement() {
       prev.map(q => (q.id === id ? { ...q, status: "archived" } : q))
     )
   }
-
-  async function handleToggleSelection(id: number, current: boolean) {
-    try {
-      const updated = await questionsApi.update(id, { isSelected: !current })
-      setQuestions(prev =>
-        prev.map(q => (q.id === id ? { ...q, isSelected: updated.isSelected } : q))
-      )
-    } catch (e) {
-      console.error("Ошибка обновления статуса выбора", e)
-    }
+async function handleToggleSelection(id: number, current: boolean) {
+  try {
+    const updated = await questionsApi.toggleSelection(id, !current)
+    setQuestions(prev =>
+      prev.map(q => (q.id === id ? { ...q, isSelected: updated.isSelected } : q))
+    )
+  } catch (e) {
+    console.error("Ошибка обновления выбора вопроса", e)
   }
+}
 
   const statusLabels: Record<string, JSX.Element> = {
     new: (

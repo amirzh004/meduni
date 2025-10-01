@@ -59,6 +59,21 @@ export interface AdaptationCreate {
   user_id: number
   status: string
 }
+export interface QuestionOut {
+  id: number
+  text: string
+  isSelected: boolean  
+}
+
+export interface QuestionCreate {
+  text: string
+  isSelected?: boolean  
+}
+
+export interface QuestionUpdate {
+  text?: string
+  isSelected?: boolean
+}
 
 // ---------- Generic request ----------
 async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -86,11 +101,17 @@ export const questionsApi = {
   getAll: (): Promise<QuestionOut[]> => apiRequest("/questions"),
   create: (data: QuestionCreate): Promise<QuestionOut> =>
     apiRequest("/questions", { method: "POST", body: JSON.stringify(data) }),
-  update: (qid: number, data: QuestionCreate): Promise<QuestionOut> =>
+  update: (qid: number, data: QuestionUpdate): Promise<QuestionOut> =>
     apiRequest(`/questions/${qid}`, { method: "PUT", body: JSON.stringify(data) }),
   delete: (qid: number): Promise<void> =>
     apiRequest(`/questions/${qid}`, { method: "DELETE" }),
+  toggleSelection: (qid: number, isSelected: boolean): Promise<QuestionOut> =>
+    apiRequest(`/questions/${qid}`, {
+      method: "PUT",
+      body: JSON.stringify({ isSelected }),
+    }),
 }
+
 // ---------- Candidates ----------
 export const candidatesApi = {
   getAll: (): Promise<CandidateOut[]> => apiRequest("/candidates"),
