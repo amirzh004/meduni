@@ -82,6 +82,9 @@ export const translations = {
     questionPlaceholder: "Введите текст вопроса...",
     editQuestion: "Редактировать вопрос",
     changeQuestionText: "Измените текст вопроса",
+    include: "Включить",
+    selectedQuestions: "Выбрано вопросов",
+    of: "из",
 
     // Forms Management
     formsTitle: "Анкеты кандидатов",
@@ -183,6 +186,9 @@ export const translations = {
     questionPlaceholder: "Сұрақ мәтінін енгізіңіз...",
     editQuestion: "Сұрақты өңдеу",
     changeQuestionText: "Сұрақ мәтінін өзгертіңіз",
+    include: "Қосу",
+    selectedQuestions: "Таңдалған сұрақтар",
+    of: "дан",
 
     // Forms Management
     formsTitle: "Кандидаттар сауалнамалары",
